@@ -18,15 +18,6 @@ object SparkTask {
     val delimiter = args(1)
     val columnConfigs = args(2)
 
-    val jsonString =
-      """
-        |[
-        |{"existing_col_name" : "name", "new_col_name" : "first_name", "new_data_type" : "string"},
-        |{"existing_col_name" : "age", "new_col_name" : "total_years", "new_data_type" : "integer"}
-        |]
-        |""".stripMargin
-
-
     val sparkSession = SparkSession
       .builder
       .appName("spark-task")
@@ -51,7 +42,7 @@ object SparkTask {
     df.show(10)
 
     println("\n-------Step 3 convert columns------\n")
-    val columnConfigurations = parseColumnConfigurations(jsonString)
+    val columnConfigurations = parseColumnConfigurations(columnConfigs)
     df = applyColumnChanges(columnConfigurations, df)
     df.printSchema()
     df.show(10)
